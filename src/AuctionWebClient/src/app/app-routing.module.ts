@@ -5,13 +5,17 @@ import {LoginComponent} from "./login/login.component";
 import {AuthGuard} from "./helpers/auth.guard";
 import {SignupComponent} from "./signup/signup.component";
 import {ProfileComponent} from "./profile/profile.component";
+import {AppComponent} from "./app.component";
+import {LotAllListComponent} from "./lot-all-list/lot-all-list.component";
 
 const routes: Routes = [
+  { path: 'home', component: AppComponent },
   { path: 'task', component: TaskComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: '', redirectTo: 'tasks', pathMatch: 'full' }
+  { path: 'lots/all', component: LotAllListComponent },
+  { path: '', redirectTo: 'task', pathMatch: 'full' }
 ];
 
 @NgModule({

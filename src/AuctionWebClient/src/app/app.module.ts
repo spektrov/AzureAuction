@@ -11,6 +11,14 @@ import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {AuthInterceptorProvider} from "./interceptors/auth.interceptor";
 import {ErrorInterceptorProvider} from "./interceptors/error.interceptor";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatTableModule} from "@angular/material/table";
+import {MatSortModule} from "@angular/material/sort";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import { LotAllListComponent } from './lot-all-list/lot-all-list.component';
+import { LotViewComponent } from './lot-view/lot-view.component';
 
 @NgModule({
   declarations: [
@@ -19,12 +27,20 @@ import {ErrorInterceptorProvider} from "./interceptors/error.interceptor";
     LoginComponent,
     SignupComponent,
     ProfileComponent,
+    LotAllListComponent,
+    LotViewComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    MatTableModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatPaginatorModule
   ],
   providers: [
     AuthInterceptorProvider,

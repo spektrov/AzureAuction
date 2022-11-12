@@ -20,6 +20,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ITaskService, TaskService>();
+builder.Services.AddTransient<ILotService, LotService>();
 
 var issuer = builder.Configuration.GetSection("AccessToken:Issuer").Value ?? string.Empty;
 var audience = builder.Configuration.GetSection("AccessToken:Audience").Value ?? string.Empty;

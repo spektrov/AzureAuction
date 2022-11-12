@@ -5,7 +5,7 @@ import {TaskService} from "../services/task.service";
 import {Observable} from "rxjs";
 
 @Component({
-  selector: 'app-tasks',
+  selector: 'app-task',
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.css'],
 })

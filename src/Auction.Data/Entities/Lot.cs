@@ -1,5 +1,4 @@
-﻿using Auction.Data.Entities;
-
+﻿
 namespace Auction.Data.Entities;
 
 public class Lot : BaseEntity

@@ -3,7 +3,10 @@
     <a href="#" class="navbar-brand">{{ title }}</a>
     <ul class="navbar-nav mr-auto" routerLinkActive="active">
       <li class="nav-item">
-        <a href="/home" class="nav-link" routerLink="tasks">Home</a>
+        <a href="/home" class="nav-link" routerLink="task">Home</a>
+      </li>
+      <li class="nav-item">
+        <a href="/lots" class="nav-link" routerLink="lots/all">To List</a>
       </li>
     </ul>
     <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">

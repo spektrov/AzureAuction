@@ -37,7 +37,7 @@ export class AuthGuard implements CanActivate {
 
     return this.tokenService.refreshToken(session).pipe(
       map(data => {
-        console.log(`refreshToken repsonse is ${JSON.stringify(data)}`);
+        console.log(`refreshToken response is ${JSON.stringify(data)}`);
         this.tokenService.saveSession(data);
         return true;
       }),

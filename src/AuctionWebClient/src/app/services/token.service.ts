@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {TokenResponse} from "../responses/token-response";
 import {UserService} from "./user.service";
 import {Observable} from "rxjs";
+import {Guid} from "guid-typescript";
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class TokenService {
         accessToken: window.localStorage.getItem('AT') || '',
         refreshToken: window.localStorage.getItem('RT') || '',
         firstName: window.localStorage.getItem('FN') || '',
-        userId: +(window.localStorage.getItem('ID') || 0),
+        userId: window.localStorage.getItem('ID') || '',
       };
     }
     return null;

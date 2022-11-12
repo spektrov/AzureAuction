@@ -76,7 +76,7 @@ public class TokenService : ITokenService
     public async Task<ValidateRefreshTokenResponse> ValidateRefreshTokenAsync(RefreshTokenRequest refreshTokenRequest)
     {
         var refreshToken = await _auctionDbContext.RefreshTokens.FirstOrDefaultAsync(o => 
-            o.UserId == refreshTokenRequest.UserId);
+            o.UserId == Guid.Parse(refreshTokenRequest.UserId));
 
         var response = new ValidateRefreshTokenResponse();
         if (refreshToken == null)

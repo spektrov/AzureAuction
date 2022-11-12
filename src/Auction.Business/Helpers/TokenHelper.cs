@@ -34,7 +34,7 @@ public class TokenHelper
             Subject = claimsIdentity,
             Issuer = Issuer,
             Audience = Audience,
-            Expires = DateTime.Now.AddMinutes(15),
+            Expires = DateTime.Now.AddMinutes(3),
             SigningCredentials = signingCredentials,
 
         };
