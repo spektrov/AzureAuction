@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterContentInit, AfterViewInit, Component, DoCheck, OnInit} from '@angular/core';
+import {LotService} from "../services/lot.service";
+import {SelectedLotService} from "../services/selected-lot.service";
+import {LotResponse} from "../responses/lot-response";
 
 @Component({
   selector: 'app-lot-view',
   templateUrl: './lot-view.component.html',
   styleUrls: ['./lot-view.component.css']
 })
-export class LotViewComponent implements OnInit {
+export class LotViewComponent implements DoCheck {
 
-  constructor() { }
+  chosenLot? : LotResponse;
 
-  ngOnInit(): void {
+  constructor(private lotService : LotService, private selectedLotService : SelectedLotService) { }
+
+  ngDoCheck(): void {
+    this.chosenLot = this.selectedLotService.getSelectedLot();
   }
-
 }

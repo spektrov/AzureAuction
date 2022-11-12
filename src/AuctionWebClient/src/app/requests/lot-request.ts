@@ -7,5 +7,5 @@ export interface LotRequest {
   timeEnd: Date;
   startPrice : number;
   categoryId: Guid;
-  holderId: Guid
+  holderId?: Guid
 }

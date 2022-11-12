@@ -10,5 +10,5 @@ export interface LotResponse {
   startPrice? : number;
   maxPrice? : number;
   category?: Category;
-  holderId?: Guid
+  holderId?: Guid;
 }

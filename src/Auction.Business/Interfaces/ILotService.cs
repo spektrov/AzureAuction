@@ -8,6 +8,8 @@ public interface ILotService
     public Task<GetLotsResponse> GetAllLotsAsync();
 
     public Task<GetLotsResponse> GetHolderLotsAsync(Guid holderId);
+    
+    public Task<GetLotResponse> GetLotByIdAsync(Guid id);
 
     public Task<CreateLotResponse> CreateAsync(Lot lot);
 

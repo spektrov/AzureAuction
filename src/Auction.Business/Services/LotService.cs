@@ -28,11 +28,22 @@ public class LotService : ILotService
     public async Task<GetLotsResponse> GetHolderLotsAsync(Guid holderId)
     {
         var lots = await _auctionDbContext.Lots
-            .Where( x => x.HolderId == holderId)
+            .Where( x => x.UserId == holderId)
             .Include(x => x.Category)
             .ToListAsync();
 
         return new GetLotsResponse { Success = true, Lots = lots };
+    }
+    
+    public async Task<GetLotResponse> GetLotByIdAsync(Guid id)
+    {
+        var lot = await _auctionDbContext.Lots
+            .Include(x => x.Category)
+            .FirstOrDefaultAsync(x => x.Id == id);
+
+        return lot == null ? 
+            new GetLotResponse { Success = false } : 
+            new GetLotResponse { Success = true, Lot = lot };
     }
 
     public async Task<CreateLotResponse> CreateAsync(Lot lot)
@@ -71,7 +82,7 @@ public class LotService : ILotService
             };
         }
 
-        if (lot.HolderId != holderId)
+        if (lot.UserId != holderId)
         {
             return new DeleteLotResponse
             {

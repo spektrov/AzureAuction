@@ -1,1 +1,23 @@
 <p>lot-view works!</p>
+
+
+<div *ngIf="chosenLot" class="container">
+  <div class="row">
+    <div> {{chosenLot.name}} </div>
+  </div>
+   <div class="row">
+     <div> {{chosenLot.description}} </div>
+   </div>
+   <div class="row">
+     <div> {{chosenLot.timeStart | date:'dd.MM.yy h:mm:ss'}} </div>
+   </div>
+  <div class="row">
+    <div> {{chosenLot.timeEnd | date:'dd.MM.yy h:mm:ss'}} </div>
+  </div>
+  <div class="row">
+    <div> {{chosenLot.maxPrice}} </div>
+  </div>
+   <div class="row">
+     <div> {{chosenLot.category?.name}} </div>
+   </div>
+</div>

@@ -36,7 +36,7 @@ public class LotController : BaseApiController
     }
     
     
-    [HttpGet("{holderId:guid}")]
+    [HttpGet("holder/{holderId:guid}")]
     public async Task<IActionResult> GetHolderLots(Guid holderId)
     {
         var getLotsResponse = await _lotService.GetHolderLotsAsync(holderId);
@@ -46,9 +46,22 @@ public class LotController : BaseApiController
             return UnprocessableEntity(getLotsResponse);
         }
 
-        var tasksResponse = getLotsResponse.Lots;
+        var lots = getLotsResponse.Lots;
 
-        return Ok(tasksResponse);
+        return Ok(lots);
+    }
+
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetByIdAsync(Guid id)
+    {
+        var getLotResponse = await _lotService.GetLotByIdAsync(id);
+
+        if (!getLotResponse.Success)
+        {
+            return UnprocessableEntity(getLotResponse);
+        }
+
+        return Ok(getLotResponse.Lot);
     }
     
     [HttpPost]
@@ -62,7 +75,7 @@ public class LotController : BaseApiController
             TimeStart = lotRequest.TimeStart,
             TimeEnd = lotRequest.TimeEnd,
             CategoryId = lotRequest.CategoryId,
-            HolderId = lotRequest.HolderId,
+            UserId = UserId,
             MaxPrice = lotRequest.StartPrice
         };
 

@@ -1,9 +1,11 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, Output, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {LotResponse} from "../responses/lot-response";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {LotService} from "../services/lot.service";
+import {Guid} from "guid-typescript";
+import {SelectedLotService} from "../services/selected-lot.service";
 
 @Component({
   selector: 'app-lot-all-list',
@@ -11,13 +13,14 @@ import {LotService} from "../services/lot.service";
   styleUrls: ['./lot-all-list.component.css']
 })
 export class LotAllListComponent implements AfterViewInit {
-  displayedColumns: string[] = ['name', 'maxPrice', 'timeEnd',  'category.name' ];
+  displayedColumns: string[] = ['id', 'name', 'maxPrice', 'timeEnd',  'category.name' ];
   dataSource : MatTableDataSource<LotResponse>;
+
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private lotService : LotService) {
+  constructor(private lotService : LotService, private selectedLotService : SelectedLotService) {
     this.dataSource = new MatTableDataSource<LotResponse>();
   }
 
@@ -37,6 +40,10 @@ export class LotAllListComponent implements AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  onSelect(lotId: Guid): void {
+    this.selectedLotService.setSelectedLot(lotId);
   }
 
 }
