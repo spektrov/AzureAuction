@@ -1,12 +1,47 @@
-table {
-  width: 100%;
-}
 
 .mat-form-field {
   font-size: 14px;
   width: 100%;
 }
 
-td, th {
+.mat-cell, mat-header-cell {
+  padding: 0 1em;
   width: 25%;
+}
+
+.details {
+  margin: 2em;
+  padding: .5em;
+}
+
+.photo {
+  max-width: 500px;
+  height: auto;
+}
+
+.price {
+  font-weight: bold;
+}
+
+.bid-button {
+  margin: .5em;
+}
+
+.mat-row .mat-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+.mat-row:hover .mat-cell {
+  border-color: currentColor;
+}
+
+.demo-row-is-clicked {
+  font-weight: bold;
+}
+
+.alert-danger {
+  color: red;
+  font-weight: bolder;
 }

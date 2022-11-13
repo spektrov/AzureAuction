@@ -2,7 +2,7 @@ import {Guid} from "guid-typescript";
 import {Category} from "../models/category";
 
 export interface LotResponse {
-  id?: Guid;
+  id: Guid;
   name: string;
   description?: string;
   timeStart?: Date;

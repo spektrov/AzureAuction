@@ -18,9 +18,9 @@ public class AuctionDbContext : DbContext
     
     public DbSet<User> Users { get; set; }
     
-    public DbSet<LotHolder> LotHolders { get; set; }
+    //public DbSet<LotHolder> LotHolders { get; set; }
     
-    public DbSet<Tariff> Tariffs { get; set; }
+    //public DbSet<Tariff> Tariffs { get; set; }
 
     
     
@@ -34,20 +34,20 @@ public class AuctionDbContext : DbContext
         modelBuilder.Entity<RefreshToken>();
         
         modelBuilder.Entity<Category>().HasData(_categories);
-        modelBuilder.Entity<Tariff>().HasData(_tariffs);
+        //modelBuilder.Entity<Tariff>().HasData(_tariffs);
         modelBuilder.Entity<User>();
         modelBuilder.Entity<Lot>();
         modelBuilder.Entity<Bid>();
-        modelBuilder.Entity<LotHolder>();
+        //modelBuilder.Entity<LotHolder>();
 
         base.OnModelCreating(modelBuilder);
     }
     
 
-    private static readonly IList<Tariff> _tariffs = new List<Tariff>()
-    {
-        new () {Id = Guid.Parse("EF0BB22C-2A87-4A26-ACDA-F3BC84C2FEBF"), Name = "Primary", Price = 0, MaxLotNumber = 5},
-    };
+    // private static readonly IList<Tariff> _tariffs = new List<Tariff>()
+    // {
+    //     new () {Id = Guid.Parse("EF0BB22C-2A87-4A26-ACDA-F3BC84C2FEBF"), Name = "Primary", Price = 0, MaxLotNumber = 5},
+    // };
     
     private static IList<Category> _categories = new List<Category>()
     {

@@ -19,18 +19,18 @@ export class LotService {
   }
 
   getById(id : Guid) : Observable<LotResponse> {
-    return this.httpClient.get<LotResponse>(`${environment.apiUrl}/lots/${id}`)
+    return this.httpClient.get<LotResponse>(`${environment.apiUrl}/lots/${id}`);
   }
 
   getUserLots(userId : Guid) : Observable<LotResponse[]> {
     return this.httpClient.get<LotResponse[]>(`${environment.apiUrl}/lots/holder/${userId}`);
   }
 
-  addLot(lot : LotRequest) : Observable<LotResponse> {
-    return this.httpClient.post<LotResponse>(`${environment.apiUrl}/lots`, lot);
+  addLot(lot : LotRequest) : Observable<string> {
+    return this.httpClient.post<string>(`${environment.apiUrl}/lots`, lot);
   }
 
   deleteLot(lotId: Guid) {
-    return this.httpClient.delete<TaskResponse>(`${environment.apiUrl}/lots/${lotId}`);
+    return this.httpClient.delete<LotResponse>(`${environment.apiUrl}/lots/${lotId}`);
   }
 }

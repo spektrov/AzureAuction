@@ -6,6 +6,8 @@ namespace Auction.Business.Requests;
 
 public class LotRequest
 {
+    public string Id { get; set; }
+
     [Required]
     public string Name { get; set; } = string.Empty;
 
@@ -24,4 +26,5 @@ public class LotRequest
     
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public Guid CategoryId { get; set; }
+    
 }

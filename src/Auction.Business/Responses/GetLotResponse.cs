@@ -1,4 +1,5 @@
 ﻿using Auction.Data.Entities;
+using Auction.Business.Models;
 
 namespace Auction.Business.Responses;
 

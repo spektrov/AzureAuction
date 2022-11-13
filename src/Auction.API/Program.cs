@@ -1,7 +1,9 @@
+using System.Text.Json.Serialization;
 using Auction.Business.Helpers;
 using Auction.Business.Interfaces;
 using Auction.Business.Services;
 using Auction.Data;
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -10,25 +12,33 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(x =>
+        x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddSingleton<IBlobService, BlobService>();
 builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ITaskService, TaskService>();
 builder.Services.AddTransient<ILotService, LotService>();
+builder.Services.AddTransient<IBidService, BidService>(); 
 
 var issuer = builder.Configuration.GetSection("AccessToken:Issuer").Value ?? string.Empty;
 var audience = builder.Configuration.GetSection("AccessToken:Audience").Value ?? string.Empty;
 var secret = builder.Configuration.GetSection("AccessToken:Secret").Value  ?? string.Empty;
 builder.Services.AddSingleton(new TokenHelper(issuer, audience, secret));
 
-var connStr = builder.Configuration.GetConnectionString("AuctionDb");
-builder.Services.AddDbContext<AuctionDbContext>(options => options.UseSqlServer(connStr));
+builder.Services.AddDbContext<AuctionDbContext>(options => 
+    options.UseSqlServer( builder.Configuration.GetConnectionString("AuctionDb")));
+
+builder.Services.AddSingleton(x =>
+    new BlobServiceClient(builder.Configuration.GetValue<string>("AzureBlobStorageConnectionString")));
 
 const string allowAllHeadersPolicy = "AllowAllHeadersPolicy";
 

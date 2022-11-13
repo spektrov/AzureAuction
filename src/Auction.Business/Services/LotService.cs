@@ -1,20 +1,36 @@
 ﻿using Auction.Business.Interfaces;
+using Auction.Business.Requests;
 using Auction.Business.Responses;
 using Auction.Data;
 using Auction.Data.Entities;
+using Azure.Storage.Blobs.Models;
 using Microsoft.EntityFrameworkCore;
+using BlobInfo = Auction.Business.Models.BlobInfo;
 
 namespace Auction.Business.Services;
 
 public class LotService : ILotService
 {
     private readonly AuctionDbContext _auctionDbContext;
+    private readonly IBlobService _blobService;
 
-    public LotService(AuctionDbContext auctionDbContext)
+    public LotService(AuctionDbContext auctionDbContext, IBlobService blobService)
     {
         _auctionDbContext = auctionDbContext;
+        _blobService = blobService;
     }
 
+    
+    public async Task<GetLotResponse> GetLotByIdAsync(Guid id)
+    {
+        var lot = await _auctionDbContext.Lots
+            .Include(x => x.Category)
+            .FirstOrDefaultAsync(x => x.Id == id);
+
+        return lot == null ? 
+            new GetLotResponse { Success = false } : 
+            new GetLotResponse { Success = true, Lot = lot };
+    }
 
     public async Task<GetLotsResponse> GetAllLotsAsync()
     {
@@ -35,21 +51,11 @@ public class LotService : ILotService
         return new GetLotsResponse { Success = true, Lots = lots };
     }
     
-    public async Task<GetLotResponse> GetLotByIdAsync(Guid id)
-    {
-        var lot = await _auctionDbContext.Lots
-            .Include(x => x.Category)
-            .FirstOrDefaultAsync(x => x.Id == id);
-
-        return lot == null ? 
-            new GetLotResponse { Success = false } : 
-            new GetLotResponse { Success = true, Lot = lot };
-    }
 
     public async Task<CreateLotResponse> CreateAsync(Lot lot)
     {
-        var createdLot = await _auctionDbContext.Lots.AddAsync(lot);
-        
+       await _auctionDbContext.Lots.AddAsync(lot);
+       
         var saveResponse = await _auctionDbContext.SaveChangesAsync();
         
         if (saveResponse >= 0)
@@ -57,7 +63,7 @@ public class LotService : ILotService
             return new CreateLotResponse
             {
                 Success = true,
-                Lot = createdLot.Entity
+                Lot = lot
             };
         }
         return new CreateLotResponse
@@ -92,6 +98,8 @@ public class LotService : ILotService
             };
         }
 
+        await _blobService.DeleteContainerAsync(lotId.ToString());
+        
         _auctionDbContext.Lots.Remove(lot);
 
         var saveResponse = await _auctionDbContext.SaveChangesAsync();

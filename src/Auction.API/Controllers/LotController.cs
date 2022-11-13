@@ -51,7 +51,9 @@ public class LotController : BaseApiController
         return Ok(lots);
     }
 
+    [AllowAnonymous]
     [HttpGet("{id:guid}")]
+    
     public async Task<IActionResult> GetByIdAsync(Guid id)
     {
         var getLotResponse = await _lotService.GetLotByIdAsync(id);
@@ -69,6 +71,7 @@ public class LotController : BaseApiController
     {
         var lot = new Lot
         {
+            Id = Guid.Parse(lotRequest.Id),
             Name = lotRequest.Name,
             Description = lotRequest.Description,
             StartPrice = lotRequest.StartPrice,
@@ -86,7 +89,7 @@ public class LotController : BaseApiController
             return UnprocessableEntity(createLotResponse);
         }
         
-        return Ok(createLotResponse);
+        return Ok(createLotResponse.Lot!.Id);
     }
     
     [HttpDelete("{id:guid}")]

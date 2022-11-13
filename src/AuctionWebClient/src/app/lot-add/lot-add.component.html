@@ -1,6 +1,5 @@
-<p>lot-add works!</p>
-
 <div class="container">
+  <h2>Create new lot</h2>
   <form #ngLot="ngForm" action="" *ngIf="lotToAdd && !isSuccessful">
     <div class="row">
       <mat-form-field appearance="fill">
@@ -14,6 +13,15 @@
         <mat-label>Description</mat-label>
         <textarea matInput [(ngModel)]="lotToAdd.description" name="description" required></textarea>
       </mat-form-field>
+    </div>
+
+    <div class="row">
+      <div class="mb-3">
+        <button class="btn mat-raised-button" type="button" (click)="fileInput.click()">Choose Files </button>
+        <input hidden #fileInput type="file" id="file" multiple="true" (change)="setFilename(fileInput.files)"/>
+        <label for="file">Files chosen - {{filenames.length}}</label>
+<!--        <input class="form-control" [(ngModel)]="lotToAdd.images" name="images" type="file" id="formFileMultiple" multiple required>-->
+      </div>
     </div>
 
     <div class="row">
@@ -51,8 +59,8 @@
       </mat-form-field>
     </div>
 
-    <div class="row">
-      <button class="btn btn-primary" (click)="addLot(lotToAdd)">Add lot</button>
+    <div class="row" style="margin-top: 10px;">
+        <button class="btn btn-primary" (click)="addLot(lotToAdd, fileInput.files)">Add lot</button>
     </div>
   </form>
 

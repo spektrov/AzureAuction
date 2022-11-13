@@ -18,4 +18,6 @@ public class User : BaseEntity
     public ICollection<RefreshToken> RefreshTokens { get; set; } = new HashSet<RefreshToken>();
 
     public ICollection<Task> Tasks { get; set; } = new HashSet<Task>();
+    
+    public ICollection<Lot> Lots { get; set; } = new HashSet<Lot>();
 }
