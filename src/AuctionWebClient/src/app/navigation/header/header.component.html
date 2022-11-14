@@ -1,0 +1,53 @@
+<mat-toolbar color="primary">
+  <div fxHide.gt-xs>
+    <button mat-icon-button (click)="onToggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+  <div>
+    <a routerLink="/lot/all">Auction</a>
+  </div>
+  <div fxFlex fxLayout fxLayoutAlign="center" fxHide.xs>
+    <ul fxLayout fxLayoutGap="15px" class="navigation-items">
+      <li> <a mat-list-item routerLink="lot/all">
+        <span class="nav-caption">All lots</span>
+      </a>
+      </li>
+      <li *ngIf="!isLoggedIn">
+        <a mat-list-item routerLink="signup">
+          <span class="nav-caption">Sign up</span>
+        </a>
+      </li>
+      <li *ngIf="!isLoggedIn">
+        <a mat-list-item routerLink="login">
+          <span class="nav-caption">Login</span>
+        </a>
+      </li>
+      <li *ngIf="isLoggedIn">
+        <a mat-list-item routerLink="lot/add">
+          <span class="nav-caption">Add lot</span>
+        </a>
+      </li>
+      <li *ngIf="isLoggedIn">
+        <a mat-list-item routerLink="lot/published">
+        <span class="nav-caption">My lots</span>
+      </a>
+      </li>
+      <li *ngIf="isLoggedIn">
+        <a mat-list-item routerLink="lot/bought">
+          <span class="nav-caption">Bought lots</span>
+        </a>
+      </li>
+      <li *ngIf="isLoggedIn">
+        <a mat-list-item routerLink="profile">
+          <span class="nav-caption">Profile</span>
+        </a>
+      </li>
+      <li *ngIf="isLoggedIn">
+        <a mat-list-item routerLink="logout">
+          <span class="nav-caption">Logout</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</mat-toolbar>
