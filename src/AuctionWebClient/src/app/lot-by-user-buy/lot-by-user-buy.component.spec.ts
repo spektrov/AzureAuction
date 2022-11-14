@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LotViewComponent } from './lot-view.component';
+import { LotByUserBuyComponent } from './lot-by-user-buy.component';
 
-describe('LotViewComponent', () => {
-  let component: LotViewComponent;
-  let fixture: ComponentFixture<LotViewComponent>;
+describe('LotByUserBuyComponent', () => {
+  let component: LotByUserBuyComponent;
+  let fixture: ComponentFixture<LotByUserBuyComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LotViewComponent ]
+      declarations: [ LotByUserBuyComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LotViewComponent);
+    fixture = TestBed.createComponent(LotByUserBuyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -50,6 +50,22 @@ public class LotController : BaseApiController
 
         return Ok(lots);
     }
+    
+    [HttpGet("holder/{holderId:guid}/bought")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetBoughtByUser(Guid holderId)
+    {
+        var getLotsResponse = await _lotService.GetBoughtByUser(holderId);
+
+        if (!getLotsResponse.Success)
+        {
+            return UnprocessableEntity(getLotsResponse);
+        }
+
+        var lots = getLotsResponse.Lots;
+
+        return Ok(lots);
+    }
 
     [AllowAnonymous]
     [HttpGet("{id:guid}")]

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,7 +19,6 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import { LotAllListComponent } from './lot-all-list/lot-all-list.component';
-import { LotViewComponent } from './lot-view/lot-view.component';
 import {MatButtonModule} from "@angular/material/button";
 import { LotAddComponent } from './lot-add/lot-add.component';
 import {MatSelectModule} from "@angular/material/select";
@@ -26,6 +26,19 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {CarouselModule} from "@coreui/angular";
 import {NgbCarouselModule} from "@ng-bootstrap/ng-bootstrap";
+import { LotSelectedComponent } from './lot-selected/lot-selected.component';
+import { LotTableComponent } from './lot-table/lot-table.component';
+import { LotByUserCreateComponent } from './lot-by-user-create/lot-by-user-create.component';
+import { LotByUserBuyComponent } from './lot-by-user-buy/lot-by-user-buy.component';
+import { BidMakeComponent } from './bid-make/bid-make.component';
+import { LotDeleteComponent } from './lot-delete/lot-delete.component';
+import {MatMenuModule} from "@angular/material/menu";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import { HeaderComponent } from './navigation/header/header.component';
+import {MatIconModule} from "@angular/material/icon";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
+import {MatListModule} from "@angular/material/list";
 
 @NgModule({
   declarations: [
@@ -35,8 +48,15 @@ import {NgbCarouselModule} from "@ng-bootstrap/ng-bootstrap";
     SignupComponent,
     ProfileComponent,
     LotAllListComponent,
-    LotViewComponent,
     LotAddComponent,
+    LotSelectedComponent,
+    LotTableComponent,
+    LotByUserCreateComponent,
+    LotByUserBuyComponent,
+    BidMakeComponent,
+    LotDeleteComponent,
+    HeaderComponent,
+    SidenavListComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,7 +75,13 @@ import {NgbCarouselModule} from "@ng-bootstrap/ng-bootstrap";
     MatDatepickerModule,
     MatNativeDateModule,
     CarouselModule,
-    NgbCarouselModule
+    NgbCarouselModule,
+    MatMenuModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatToolbarModule,
+    FlexLayoutModule,
+    MatListModule,
   ],
   providers: [
     AuthInterceptorProvider,
@@ -64,5 +90,3 @@ import {NgbCarouselModule} from "@ng-bootstrap/ng-bootstrap";
   bootstrap: [AppComponent],
 })
 export class AppModule {}
-
-

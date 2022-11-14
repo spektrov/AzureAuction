@@ -1,0 +1,22 @@
+
+.photo {
+  max-width: 500px;
+  height: auto;
+}
+
+.price {
+  font-weight: bold;
+}
+
+.bid-button {
+  margin: .5em;
+}
+
+.alert-danger {
+  color: red;
+  font-weight: bolder;
+}
+
+.card-pos {
+  max-width: 500px;
+}

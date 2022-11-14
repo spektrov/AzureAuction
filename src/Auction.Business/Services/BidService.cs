@@ -5,6 +5,7 @@ using Auction.Data;
 using Auction.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace Auction.Business.Services;
 
 public class BidService : IBidService
@@ -81,6 +82,7 @@ public class BidService : IBidService
 
         return new GetBidsResponse() { Success = true, Bids = bids };
     }
+    
 
     public async Task<GetBidsResponse> GetByUserAsync(Guid userId)
     {

@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
 
     if (isLoggedIn) {
       this.isLoggedIn = true;
-      this.router.navigate(['/task']);
+      this.router.navigate(['/lot/all']);
     }
   }
 

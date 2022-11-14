@@ -1,11 +1,9 @@
 ﻿using Auction.Business.Interfaces;
-using Auction.Business.Requests;
 using Auction.Business.Responses;
 using Auction.Data;
 using Auction.Data.Entities;
-using Azure.Storage.Blobs.Models;
 using Microsoft.EntityFrameworkCore;
-using BlobInfo = Auction.Business.Models.BlobInfo;
+
 
 namespace Auction.Business.Services;
 
@@ -25,6 +23,7 @@ public class LotService : ILotService
     {
         var lot = await _auctionDbContext.Lots
             .Include(x => x.Category)
+            .Where(x => x.TimeEnd > DateTime.Now)
             .FirstOrDefaultAsync(x => x.Id == id);
 
         return lot == null ? 
@@ -50,6 +49,39 @@ public class LotService : ILotService
 
         return new GetLotsResponse { Success = true, Lots = lots };
     }
+    
+    public async Task<GetLotsResponse> GetBoughtByUser(Guid userId)
+    {
+        var group =  _auctionDbContext.Bids
+            .Include(x => x.Lot)
+            .Where(x => x.UserId == userId)
+            .GroupBy(b => b.Lot);;
+
+        var boughtLotIds = new List<Guid>();
+        foreach (var lotBid in group)
+        {
+            boughtLotIds.Add(lotBid.First(x => x.Price == lotBid.Max(bid => bid.Price)).LotId);
+        }
+        
+        var endedLots = _auctionDbContext.Lots.Where(x => x.TimeEnd <= DateTime.Now);
+        var result = new List<Lot>();
+        foreach (var ended in endedLots)
+        {
+            if (boughtLotIds.Any(l => l == ended.Id)) result.Add(ended);
+        }
+
+        return new GetLotsResponse() { Success = true, Lots = result };
+    }
+    
+    public async Task<GetLotsResponse> GetBoughtLotsAsync(Guid userId)
+    {
+        var lots = await _auctionDbContext.Lots
+            .Include(x => x.Category)
+            .ToListAsync();
+
+        return new GetLotsResponse { Success = true, Lots = lots };
+    }
+
     
 
     public async Task<CreateLotResponse> CreateAsync(Lot lot)
@@ -88,7 +120,7 @@ public class LotService : ILotService
             };
         }
 
-        if (lot.UserId != holderId)
+        if (lot.UserId != holderId || lot.TimeEnd <= DateTime.Now)
         {
             return new DeleteLotResponse
             {

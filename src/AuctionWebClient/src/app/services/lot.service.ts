@@ -26,6 +26,10 @@ export class LotService {
     return this.httpClient.get<LotResponse[]>(`${environment.apiUrl}/lots/holder/${userId}`);
   }
 
+  getUserBoughtLots(userId : Guid) : Observable<LotResponse[]> {
+    return this.httpClient.get<LotResponse[]>(`${environment.apiUrl}/lots/holder/${userId}/bought`);
+  }
+
   addLot(lot : LotRequest) : Observable<string> {
     return this.httpClient.post<string>(`${environment.apiUrl}/lots`, lot);
   }

@@ -1,0 +1,11 @@
+<div class="">
+  <button *ngIf="selectedLot" (click)="onDelete()" class="btn btn-danger">Delete lot</button>
+</div>
+
+<p *ngIf="isSuccessful == 1" class="message-success">Lot deleted successfully.</p>
+<p *ngIf="isSuccessful == -1" class="message-error">Lot can't be deleted. Probably it was already closed.</p>
+<div *ngIf="isSuccessful == 1 || isSuccessful == -1">
+  <button class="btn-primary" (click)="onOk()">
+  Get it
+</button>
+</div>

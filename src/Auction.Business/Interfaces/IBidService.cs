@@ -13,4 +13,5 @@ public interface IBidService
     public Task<GetBidsResponse> GetByLotAsync(Guid lotId);
 
     public Task<MakeBidResponse> GetByIdAsync(Guid id);
+    
 }

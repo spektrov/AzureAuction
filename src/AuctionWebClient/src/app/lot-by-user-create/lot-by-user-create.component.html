@@ -1,0 +1,31 @@
+<div> <h4>These are all lots you have ever created.</h4></div>
+<div class="container d-flex">
+  <div class="row">
+    <div class="col-md-4">
+      <app-lot-table
+        (onSelectEvent)="onSelect($event)"
+        [selectedLot]="selectedLot"
+        [dataSource]="dataSource"
+        [displayedColumns]="displayedColumns">
+      </app-lot-table>
+    </div>
+    <div class="col-md-8">
+      <div class="d-flex flex-column details">
+        <app-lot-selected *ngIf="selectedLot"
+                          [selectedLot]="selectedLot"
+                          [blobsUri]="blobsUri">
+        </app-lot-selected>
+
+        <div class="button">
+          <app-lot-delete *ngIf="selectedLot"
+                          [selectedLot]="selectedLot">
+          </app-lot-delete>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+</div>

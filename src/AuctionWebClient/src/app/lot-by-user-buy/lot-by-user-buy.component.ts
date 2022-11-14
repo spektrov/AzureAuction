@@ -1,37 +1,38 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {AfterViewInit, Component} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {LotResponse} from "../responses/lot-response";
+import {Guid} from "guid-typescript";
 import {LotService} from "../services/lot.service";
 import {BlobService} from "../services/blob.service";
+import {TokenService} from "../services/token.service";
 
 @Component({
-  selector: 'app-lot-all-list',
-  templateUrl: './lot-all-list.component.html',
-  styleUrls: ['./lot-all-list.component.css']
+  selector: 'app-lot-by-user-buy',
+  templateUrl: './lot-by-user-buy.component.html',
+  styleUrls: ['./lot-by-user-buy.component.css']
 })
-export class LotAllListComponent implements AfterViewInit {
+export class LotByUserBuyComponent implements AfterViewInit {
   displayedColumns: string[] = [ 'name', 'maxPrice', 'timeEnd' ];
   dataSource : MatTableDataSource<LotResponse>;
   blobsUri = new Array<string>();
   selectedLot? : LotResponse;
-  bidPrice? : number;
-  errorBid : Boolean = false;
+  userId? : Guid;
 
   constructor(private lotService : LotService,
               private blobService : BlobService,
-              ) {
+              private tokenService : TokenService) {
     this.dataSource = new MatTableDataSource<LotResponse>();
   }
 
   ngAfterViewInit() {
+    let id =  this.tokenService.getSession()?.userId!;
+    this.userId = Guid.parse(id);
     this.updateList();
   }
 
   onSelect(lot: LotResponse): void {
     this.selectedLot = lot;
-    this.bidPrice = lot.maxPrice;
     this.getPhotos();
-    this.errorBid = false;
   }
 
   getPhotos()  {
@@ -42,8 +43,11 @@ export class LotAllListComponent implements AfterViewInit {
   }
 
   updateList() {
-    this.lotService.getAllLots().subscribe(lots => {
-      this.dataSource.data = lots;
-    });
+    if (this.userId) {
+      this.lotService.getUserBoughtLots(this.userId!).subscribe(lots => {
+        this.dataSource.data = lots;
+      });
+    }
   }
+
 }

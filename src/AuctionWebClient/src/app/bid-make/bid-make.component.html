@@ -1,0 +1,15 @@
+<div *ngIf="isLoggedIn && selectedLot" class="main">
+  <div class="input">
+    <input type="number" id="bidPrice" [(ngModel)]="bidPrice"
+           min="{{selectedLot.maxPrice}}" placeholder="{{selectedLot.maxPrice}}">
+  </div>
+  <div class="bid-button" >
+    <button class="btn btn-success" (click)="makeBid()">Make bid</button>
+  </div>
+  <div *ngIf="errorBid">
+    <p class="alert-danger">Error making bid. Someone did bigger bid than you.</p>
+  </div>
+</div>
+<div *ngIf="!isLoggedIn">
+  <p class="alert-danger">Login to make bid!</p>
+</div>

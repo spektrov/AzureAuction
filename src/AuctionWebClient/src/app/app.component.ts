@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'AuctionWebClient';
+  title = 'IAuction';
   isLoggedIn = false;
 
   constructor(private tokenService: TokenService, private router: Router) {

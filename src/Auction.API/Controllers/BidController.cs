@@ -1,6 +1,5 @@
 ﻿using Auction.Business.Interfaces;
 using Auction.Business.Requests;
-using Auction.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

@@ -14,4 +14,6 @@ public interface ILotService
     public Task<CreateLotResponse> CreateAsync(Lot lot);
 
     public Task<DeleteLotResponse> DeleteAsync(Guid lotId, Guid holderId);
+
+    public Task<GetLotsResponse> GetBoughtByUser(Guid userId);
 }
