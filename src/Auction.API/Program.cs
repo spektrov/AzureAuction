@@ -35,10 +35,10 @@ var secret = builder.Configuration.GetSection("AccessToken:Secret").Value  ?? st
 builder.Services.AddSingleton(new TokenHelper(issuer, audience, secret));
 
 builder.Services.AddDbContext<AuctionDbContext>(options => 
-    options.UseSqlServer( builder.Configuration.GetConnectionString("AuctionDb")));
+    options.UseSqlServer( builder.Configuration.GetConnectionString("AuctionAzureDb")));
 
 builder.Services.AddSingleton(x =>
-    new BlobServiceClient(builder.Configuration.GetValue<string>("AzureBlobStorageConnectionString")));
+    new BlobServiceClient(builder.Configuration.GetConnectionString("AzureBlobStorageConnectionString")));
 
 const string allowAllHeadersPolicy = "AllowAllHeadersPolicy";
 
@@ -47,7 +47,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(allowAllHeadersPolicy,
         config =>
         {
-            config.WithOrigins("http://localhost:4200")
+            config.WithOrigins()
                 .AllowAnyMethod()
                 .AllowAnyHeader();
         });
@@ -74,11 +74,9 @@ builder.Services.AddAuthorization();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 app.UseCors(allowAllHeadersPolicy);
 
