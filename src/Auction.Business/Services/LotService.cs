@@ -7,24 +7,61 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Auction.Business.Services;
 
+
+public interface ILotRepository
+{
+    public Task<Lot?> GetLotByIdAsync(Guid id);
+    public Task<ICollection<Lot>> GetAllLotsAsync();
+}
+
+
+public class LotRepository : ILotRepository
+{
+    private readonly AuctionDbContext _auctionDbContext;
+
+    public LotRepository(AuctionDbContext auctionDbContext)
+    {
+        _auctionDbContext = auctionDbContext;
+    }
+
+
+    public async Task<Lot?> GetLotByIdAsync(Guid id)
+    {
+        return await _auctionDbContext.Lots
+            .Include(x => x.Category)
+            .Where(x => x.TimeEnd > DateTime.Now)
+            .FirstOrDefaultAsync(x => x.Id == id);
+    }
+    
+    
+    public async Task<ICollection<Lot>> GetAllLotsAsync()
+    {
+        return await _auctionDbContext.Lots
+            .Include(x => x.Category)
+            .ToListAsync();
+    }
+}
+
+
+
+
 public class LotService : ILotService
 {
     private readonly AuctionDbContext _auctionDbContext;
     private readonly IBlobService _blobService;
+    private readonly ILotRepository _lotRepository;
 
-    public LotService(AuctionDbContext auctionDbContext, IBlobService blobService)
+    public LotService(AuctionDbContext auctionDbContext, IBlobService blobService, ILotRepository lotRepository)
     {
         _auctionDbContext = auctionDbContext;
         _blobService = blobService;
+        _lotRepository = lotRepository;
     }
 
     
     public async Task<GetLotResponse> GetLotByIdAsync(Guid id)
     {
-        var lot = await _auctionDbContext.Lots
-            .Include(x => x.Category)
-            .Where(x => x.TimeEnd > DateTime.Now)
-            .FirstOrDefaultAsync(x => x.Id == id);
+        var lot = await _lotRepository.GetLotByIdAsync(id);
 
         return lot == null ? 
             new GetLotResponse { Success = false } : 
@@ -33,19 +70,16 @@ public class LotService : ILotService
 
     public async Task<GetLotsResponse> GetAllLotsAsync()
     {
-        var lots = await _auctionDbContext.Lots
-            .Include(x => x.Category)
-            .ToListAsync();
+        var lots = await _lotRepository.GetAllLotsAsync();
 
         return new GetLotsResponse { Success = true, Lots = lots };
     }
 
     public async Task<GetLotsResponse> GetHolderLotsAsync(Guid holderId)
     {
-        var lots = await _auctionDbContext.Lots
-            .Where( x => x.UserId == holderId)
-            .Include(x => x.Category)
-            .ToListAsync();
+        var lots = (await _lotRepository.GetAllLotsAsync())
+            .Where(x => x.UserId == holderId)
+            .ToList();
 
         return new GetLotsResponse { Success = true, Lots = lots };
     }
@@ -55,7 +89,7 @@ public class LotService : ILotService
         var group =  _auctionDbContext.Bids
             .Include(x => x.Lot)
             .Where(x => x.UserId == userId)
-            .GroupBy(b => b.Lot);;
+            .GroupBy(b => b.Lot);
 
         var boughtLotIds = new List<Guid>();
         foreach (var lotBid in group)
@@ -73,17 +107,6 @@ public class LotService : ILotService
         return new GetLotsResponse() { Success = true, Lots = result };
     }
     
-    public async Task<GetLotsResponse> GetBoughtLotsAsync(Guid userId)
-    {
-        var lots = await _auctionDbContext.Lots
-            .Include(x => x.Category)
-            .ToListAsync();
-
-        return new GetLotsResponse { Success = true, Lots = lots };
-    }
-
-    
-
     public async Task<CreateLotResponse> CreateAsync(Lot lot)
     {
        await _auctionDbContext.Lots.AddAsync(lot);

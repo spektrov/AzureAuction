@@ -22,7 +22,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddSingleton<IBlobService, BlobService>();
+builder.Services.AddTransient<IBlobService, BlobService>();
 builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ITaskService, TaskService>();
@@ -36,6 +36,8 @@ builder.Services.AddSingleton(new TokenHelper(issuer, audience, secret));
 
 builder.Services.AddDbContext<AuctionDbContext>(options => 
     options.UseSqlServer( builder.Configuration.GetConnectionString("AuctionAzureDb")));
+
+builder.Services.AddTransient<ILotRepository, LotRepository>();
 
 builder.Services.AddSingleton(x =>
     new BlobServiceClient(builder.Configuration.GetConnectionString("AzureBlobStorageConnectionString")));

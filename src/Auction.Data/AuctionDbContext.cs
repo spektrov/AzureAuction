@@ -6,9 +6,9 @@ namespace Auction.Data;
 
 public class AuctionDbContext : DbContext
 {
-    public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
     
-    public virtual DbSet<Task> Tasks { get; set; }
+    public DbSet<Task> Tasks { get; set; }
 
     public DbSet<Bid> Bids { get; set; }
     
